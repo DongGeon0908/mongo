@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: mongo
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: todo-db
+      auto-index-creation: true
+
+server:
+  port: 8080
