@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.goofy.mongo.domain.todo.dto.TodoDto
 import com.goofy.mongo.domain.todo.entity.Todo
 import com.goofy.mongo.domain.todo.repository.TodoRepository
+import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -136,7 +137,7 @@ class TodoControllerTest {
     @Test
     fun `should return 404 when todo not found`() {
         // Given
-        val nonExistentId = "nonexistent123"
+        val nonExistentId = ObjectId().toHexString() // Generate a valid but non-existent ObjectId
 
         // When & Then
         mockMvc.perform(get("$baseUrl/$nonExistentId"))
