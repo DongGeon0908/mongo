@@ -23,7 +23,7 @@ class TodoService(
         val objectId = try {
             ObjectId(id)
         } catch (e: IllegalArgumentException) {
-            throw NoSuchElementException("Invalid ObjectId format: $id")
+            throw NoSuchElementException("유효하지 않은 ObjectId 형식: $id")
         }
         val todo = findTodoById(objectId)
         return TodoDto.Response.from(todo)
@@ -41,7 +41,7 @@ class TodoService(
         val objectId = try {
             ObjectId(id)
         } catch (e: IllegalArgumentException) {
-            throw NoSuchElementException("Invalid ObjectId format: $id")
+            throw NoSuchElementException("유효하지 않은 ObjectId 형식: $id")
         }
         val todo = findTodoById(objectId)
         todo.update(

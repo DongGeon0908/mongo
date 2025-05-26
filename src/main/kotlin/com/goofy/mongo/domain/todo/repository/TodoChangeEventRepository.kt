@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TodoChangeEventRepository : MongoRepository<TodoChangeEvent, ObjectId> {
-    // Find change events by todoId
+    // todoId로 변경 이벤트 조회
     fun findByTodoId(todoId: String): List<TodoChangeEvent>
-    
-    // Find change events by uid
+
+    // uid로 변경 이벤트 조회
     fun findByUid(uid: String): List<TodoChangeEvent>
 }

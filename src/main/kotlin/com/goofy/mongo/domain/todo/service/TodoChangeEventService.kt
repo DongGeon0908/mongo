@@ -11,7 +11,7 @@ class TodoChangeEventService(
     private val todoChangeEventRepository: TodoChangeEventRepository
 ) {
     /**
-     * Find all change events
+     * 모든 변경 이벤트 조회
      */
     @Transactional(readOnly = true)
     fun findAll(): List<TodoChangeEvent> {
@@ -19,7 +19,7 @@ class TodoChangeEventService(
     }
 
     /**
-     * Find change events by todoId
+     * todoId로 변경 이벤트 조회
      */
     @Transactional(readOnly = true)
     fun findByTodoId(todoId: String): List<TodoChangeEvent> {
@@ -27,7 +27,7 @@ class TodoChangeEventService(
     }
 
     /**
-     * Find change events by uid
+     * uid로 변경 이벤트 조회
      */
     @Transactional(readOnly = true)
     fun findByUid(uid: String): List<TodoChangeEvent> {
@@ -35,7 +35,7 @@ class TodoChangeEventService(
     }
 
     /**
-     * Find change events by operation type
+     * 작업 유형별 변경 이벤트 조회
      */
     @Transactional(readOnly = true)
     fun findByOperationType(operationType: OperationType): List<TodoChangeEvent> {
@@ -44,8 +44,8 @@ class TodoChangeEventService(
     }
 
     /**
-     * Get change history for a specific todo
-     * Returns a list of change events sorted by creation time
+     * 특정 할일의 변경 이력 조회
+     * 생성 시간순으로 정렬된 변경 이벤트 목록 반환
      */
     @Transactional(readOnly = true)
     fun getChangeHistory(todoId: String): List<TodoChangeEvent> {

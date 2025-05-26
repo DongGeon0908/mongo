@@ -20,7 +20,7 @@ class TodoChangeStreamListener(
 ) : AbstractMongoEventListener<Todo>() {
 
     /**
-     * Handle after save events (create and update)
+     * 저장 후 이벤트 처리 (생성 및 업데이트)
      */
     override fun onAfterSave(event: AfterSaveEvent<Todo>) {
         val todo = event.source
@@ -34,7 +34,7 @@ class TodoChangeStreamListener(
     }
 
     /**
-     * Handle after delete events
+     * 삭제 후 이벤트 처리
      */
     override fun onAfterDelete(event: AfterDeleteEvent<Todo>) {
         val document = event.source as Document
@@ -61,7 +61,7 @@ class TodoChangeStreamListener(
     }
 
     /**
-     * Save a change event for a Todo
+     * Todo의 변경 이벤트 저장
      */
     private fun saveChangeEvent(todo: Todo, operationType: OperationType) {
         val todoChangeEvent = TodoChangeEvent(

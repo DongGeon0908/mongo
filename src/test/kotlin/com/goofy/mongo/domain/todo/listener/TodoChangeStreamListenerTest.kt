@@ -41,20 +41,20 @@ class TodoChangeStreamListenerTest {
 
     @Test
     fun `should create a change event when a todo is created`() {
-        // Given
+        // 주어진 조건
         val todo = Todo(
             title = "Test Todo",
             content = "Test Content",
             uid = "user123"
         )
 
-        // When
+        // 실행
         val savedTodo = todoRepository.save(todo)
 
-        // Then
+        // 검증
         val changeEvents = todoChangeEventRepository.findByTodoId(savedTodo.id!!.toHexString())
         assertEquals(1, changeEvents.size)
-        
+
         val changeEvent = changeEvents.first()
         assertEquals(OperationType.CREATE, changeEvent.operationType)
         assertEquals(savedTodo.id!!.toHexString(), changeEvent.todoId)
@@ -68,7 +68,7 @@ class TodoChangeStreamListenerTest {
 
     @Test
     fun `should create a change event when a todo is updated`() {
-        // Given
+        // 주어진 조건
         val todo = todoRepository.save(
             Todo(
                 title = "Original Title",
@@ -76,11 +76,11 @@ class TodoChangeStreamListenerTest {
                 uid = "user123"
             )
         )
-        
-        // Clear change events from creation
+
+        // 생성 이벤트 초기화
         todoChangeEventRepository.deleteAll()
 
-        // When
+        // 실행
         todo.update(
             title = "Updated Title",
             content = "Updated Content",
@@ -88,10 +88,10 @@ class TodoChangeStreamListenerTest {
         )
         val updatedTodo = todoRepository.save(todo)
 
-        // Then
+        // 검증
         val changeEvents = todoChangeEventRepository.findByTodoId(updatedTodo.id!!.toHexString())
         assertEquals(1, changeEvents.size)
-        
+
         val changeEvent = changeEvents.first()
         assertEquals(OperationType.UPDATE, changeEvent.operationType)
         assertEquals(updatedTodo.id!!.toHexString(), changeEvent.todoId)
@@ -105,7 +105,7 @@ class TodoChangeStreamListenerTest {
 
     @Test
     fun `should create a change event when a todo is deleted`() {
-        // Given
+        // 주어진 조건
         val todo = todoRepository.save(
             Todo(
                 title = "Test Todo",
@@ -113,17 +113,17 @@ class TodoChangeStreamListenerTest {
                 uid = "user123"
             )
         )
-        
-        // Clear change events from creation
+
+        // 생성 이벤트 초기화
         todoChangeEventRepository.deleteAll()
 
-        // When
+        // 실행
         todoRepository.delete(todo)
 
-        // Then
+        // 검증
         val changeEvents = todoChangeEventRepository.findByTodoId(todo.id!!.toHexString())
         assertEquals(1, changeEvents.size)
-        
+
         val changeEvent = changeEvents.first()
         assertEquals(OperationType.DELETE, changeEvent.operationType)
         assertEquals(todo.id!!.toHexString(), changeEvent.todoId)
