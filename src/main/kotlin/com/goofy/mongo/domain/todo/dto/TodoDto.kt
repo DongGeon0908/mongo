@@ -2,7 +2,6 @@ package com.goofy.mongo.domain.todo.dto
 
 import com.goofy.mongo.domain.todo.entity.Todo
 import jakarta.validation.constraints.NotBlank
-import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
 class TodoDto {
@@ -13,11 +12,15 @@ class TodoDto {
         @field:NotBlank(message = "Content is required")
         val content: String,
 
+        @field:NotBlank(message = "User ID is required")
+        val uid: String,
+
         val completed: Boolean = false
     ) {
         fun toEntity(): Todo = Todo(
             title = title,
             content = content,
+            uid = uid,
             completed = completed
         )
     }
@@ -34,6 +37,7 @@ class TodoDto {
 
     data class Response(
         val id: String,
+        val uid: String,
         val title: String,
         val content: String,
         val completed: Boolean,
@@ -43,6 +47,7 @@ class TodoDto {
         companion object {
             fun from(todo: Todo): Response = Response(
                 id = todo.id!!.toHexString(),
+                uid = todo.uid,
                 title = todo.title,
                 content = todo.content,
                 completed = todo.completed,

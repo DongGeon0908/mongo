@@ -53,6 +53,7 @@ class TodoControllerTest {
         val createRequest = TodoDto.CreateRequest(
             title = "Test Todo",
             content = "Test Content",
+            uid = "user123",
             completed = false
         )
 
@@ -66,14 +67,15 @@ class TodoControllerTest {
             .andExpect(jsonPath("$.title").value(createRequest.title))
             .andExpect(jsonPath("$.content").value(createRequest.content))
             .andExpect(jsonPath("$.completed").value(createRequest.completed))
+            .andExpect(jsonPath("$.uid").value(createRequest.uid))
             .andExpect(jsonPath("$.id").exists())
     }
 
     @Test
     fun `should get all todos`() {
         // Given
-        val todo1 = todoRepository.save(Todo(title = "Todo 1", content = "Content 1"))
-        val todo2 = todoRepository.save(Todo(title = "Todo 2", content = "Content 2"))
+        val todo1 = todoRepository.save(Todo(title = "Todo 1", content = "Content 1", uid = "user123"))
+        val todo2 = todoRepository.save(Todo(title = "Todo 2", content = "Content 2", uid = "user123"))
 
         // When & Then
         mockMvc.perform(get(baseUrl))
@@ -87,7 +89,7 @@ class TodoControllerTest {
     @Test
     fun `should get a todo by id`() {
         // Given
-        val todo = todoRepository.save(Todo(title = "Test Todo", content = "Test Content"))
+        val todo = todoRepository.save(Todo(title = "Test Todo", content = "Test Content", uid = "user123"))
 
         // When & Then
         mockMvc.perform(get("$baseUrl/${todo.id}"))
@@ -95,12 +97,13 @@ class TodoControllerTest {
             .andExpect(jsonPath("$.id").value(todo.id))
             .andExpect(jsonPath("$.title").value(todo.title))
             .andExpect(jsonPath("$.content").value(todo.content))
+            .andExpect(jsonPath("$.uid").value(todo.uid))
     }
 
     @Test
     fun `should update a todo`() {
         // Given
-        val todo = todoRepository.save(Todo(title = "Original Title", content = "Original Content"))
+        val todo = todoRepository.save(Todo(title = "Original Title", content = "Original Content", uid = "user123"))
         val updateRequest = TodoDto.UpdateRequest(
             title = "Updated Title",
             content = "Updated Content",
@@ -118,12 +121,13 @@ class TodoControllerTest {
             .andExpect(jsonPath("$.title").value(updateRequest.title))
             .andExpect(jsonPath("$.content").value(updateRequest.content))
             .andExpect(jsonPath("$.completed").value(updateRequest.completed))
+            .andExpect(jsonPath("$.uid").value(todo.uid))
     }
 
     @Test
     fun `should delete a todo`() {
         // Given
-        val todo = todoRepository.save(Todo(title = "Test Todo", content = "Test Content"))
+        val todo = todoRepository.save(Todo(title = "Test Todo", content = "Test Content", uid = "user123"))
 
         // When & Then
         mockMvc.perform(delete("$baseUrl/${todo.id}"))
@@ -150,6 +154,7 @@ class TodoControllerTest {
         val invalidRequest = TodoDto.CreateRequest(
             title = "",  // Empty title should fail validation
             content = "Test Content",
+            uid = "user123",
             completed = false
         )
 
