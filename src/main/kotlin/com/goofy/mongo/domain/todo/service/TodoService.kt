@@ -59,7 +59,7 @@ class TodoService(
         val objectId = try {
             ObjectId(id)
         } catch (e: IllegalArgumentException) {
-            throw NoSuchElementException("Invalid ObjectId format: $id")
+            throw NoSuchElementException("유효하지 않은 ObjectId 형식: $id")
         }
         val todo = findTodoById(objectId)
         todoRepository.delete(todo)
@@ -67,6 +67,6 @@ class TodoService(
 
     private fun findTodoById(id: ObjectId): Todo {
         return todoRepository.findByIdOrNull(id)
-            ?: throw NoSuchElementException("Todo not found with id: $id")
+            ?: throw NoSuchElementException("해당 id로 Todo를 찾을 수 없음: $id")
     }
 }

@@ -1,5 +1,6 @@
 package com.goofy.mongo.domain.todo.entity
 
+import com.goofy.mongo.domain.base.BaseDocument
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -18,9 +19,6 @@ enum class OperationType {
  */
 @Document(collection = "todo_change_events")
 data class TodoChangeEvent(
-    @Id
-    val id: ObjectId? = null,
-
     // 변경된 Todo 문서의 ID
     val todoId: String,
 
@@ -35,8 +33,7 @@ data class TodoChangeEvent(
     val content: String,
     val completed: Boolean,
 
-    // 타임스탬프
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    // Todo 문서의 타임스탬프
     val todoCreatedAt: LocalDateTime,
     val todoUpdatedAt: LocalDateTime
-)
+) : BaseDocument()
