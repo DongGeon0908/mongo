@@ -4,12 +4,13 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.CompoundIndex
 import org.springframework.data.mongodb.core.index.CompoundIndexes
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
 @Document(collection = "todos")
 @CompoundIndexes(
-    CompoundIndex(name = "idx__uid__createdAt", def = "{'uid': 1, 'createdAt': 1}")
+    CompoundIndex(name = "idx__uid__createdAt", def = "{'uid': 1, 'createdAt': 1}", unique = true)
 )
 data class Todo(
     @Id
@@ -25,6 +26,7 @@ data class Todo(
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
+    @Indexed
     var updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
     fun update(title: String, content: String, completed: Boolean) {
